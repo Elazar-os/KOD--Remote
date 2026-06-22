@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King of Delancey – Guest Remote</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #C0272D;
+    --red-dark: #9a1f24;
+    --red-glow: rgba(192, 39, 45, 0.35);
+    --cream: #FAF7F2;
+    --off-white: #F0EBE3;
+    --charcoal: #1A1A1A;
+    --mid: #555;
+    --light: #999;
+  }
+
+  body {
+    background: var(--charcoal);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .logo-badge {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 12px;
+  }
+
+  /* SVG badge replicating the KOD shield shape */
+  .badge-svg {
+    width: 200px;
+    filter: drop-shadow(0 4px 20px var(--red-glow));
+  }
+
+  .tagline {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-top: 6px;
+  }
+
+  /* ── WIFI CARD ── */
+  .wifi-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 16px 24px;
+    width: 100%;
+    max-width: 360px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .wifi-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .wifi-info h3 {
+    font-size: 13px;
+    color: var(--light);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 2px;
+  }
+
+  .wifi-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 3px;
+  }
+
+  .wifi-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cream);
+  }
+
+  .wifi-pass {
+    font-size: 13px;
+    color: var(--light);
+    font-family: monospace;
+  }
+
+  /* ── SPOTIFY SUBMIT ── */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 10px;
+    text-align: left;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .spotify-form {
+    width: 100%;
+    max-width: 360px;
+    margin-bottom: 32px;
+  }
+
+  .spotify-input-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .spotify-input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .spotify-input:focus { border-color: var(--red); }
+  .spotify-input::placeholder { color: var(--light); }
+
+  .btn-submit {
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .btn-submit:active { transform: scale(0.96); background: var(--red-dark); }
+
+  .status-msg {
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 18px;
+    text-align: center;
+    color: var(--light);
+    transition: color 0.3s;
+  }
+  .status-msg.ok { color: #4ade80; }
+  .status-msg.err { color: #f87171; }
+
+  /* ── REMOTE ── */
+  .remote {
+    width: 100%;
+    max-width: 360px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 28px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .now-playing {
+    text-align: center;
+    width: 100%;
+  }
+
+  .now-playing-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 6px;
+  }
+
+  .track-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 2px;
+    min-height: 28px;
+  }
+
+  .track-artist {
+    font-size: 13px;
+    color: var(--light);
+    min-height: 18px;
+  }
+
+  /* Play/Pause ring button */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .ctrl-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--cream);
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ctrl-btn:hover { opacity: 1; }
+  .ctrl-btn:active { transform: scale(0.88); }
+
+  .btn-playpause {
+    width: 72px;
+    height: 72px;
+    background: var(--red);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 28px var(--red-glow);
+    transition: background 0.2s, transform 0.1s;
+    opacity: 1;
+  }
+  .btn-playpause:active { transform: scale(0.92); background: var(--red-dark); }
+
+  /* Volume */
+  .volume-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .vol-icon {
+    color: var(--light);
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.12);
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--red);
+    cursor: pointer;
+    box-shadow: 0 0 8px var(--red-glow);
+  }
+
+  .vol-val {
+    font-size: 13px;
+    color: var(--light);
+    width: 28px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* divider */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+  }
+
+  .footer {
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    text-align: center;
+    margin-top: 36px;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="logo-badge">
+    <!-- KOD shield SVG (red/white matching uploaded logo) -->
+    <svg class="badge-svg" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer shield body -->
+      <path d="M20,60 Q200,-20 380,60 L380,200 Q200,280 20,200 Z" fill="#C0272D"/>
+      <!-- Inner white rectangle area -->
+      <rect x="36" y="72" width="328" height="116" rx="4" fill="white"/>
+      <!-- Top oval -->
+      <ellipse cx="200" cy="72" rx="72" ry="28" fill="#C0272D"/>
+      <text x="200" y="67" font-family="Georgia,serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">KING OF</text>
+      <!-- Main text -->
+      <text x="200" y="152" font-family="Georgia,serif" font-size="58" fill="#C0272D" text-anchor="middle" font-weight="900">DELANCEY</text>
+      <!-- Est text -->
+      <text x="200" y="230" font-family="Georgia,serif" font-size="18" fill="#C0272D" text-anchor="middle" font-weight="bold">EST. 2009</text>
+    </svg>
+  </div>
+  <div class="tagline">Guest Music Remote · Passaic, NJ</div>
+</div>
+
+<!-- ── WIFI CARD ── -->
+<div class="wifi-card">
+  <div class="wifi-icon">📶</div>
+  <div class="wifi-info">
+    <h3>Connect to Wi-Fi first</h3>
+    <div class="wifi-row">
+      <span class="wifi-name">KOD</span>
+      <span class="wifi-pass">Blackroom234!</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── SPOTIFY SUBMIT ── -->
+<div class="section-label">Share your Spotify playlist</div>
+<div class="spotify-form">
+  <div class="spotify-input-row">
+    <input class="spotify-input" id="spotifyUrl" type="url"
+      placeholder="Paste Spotify playlist link…">
+    <button class="btn-submit" onclick="submitPlaylist()">▶ Play</button>
+  </div>
+  <div class="status-msg" id="statusMsg"></div>
+</div>
+
+<!-- ── REMOTE ── -->
+<div class="remote">
+  <div class="now-playing">
+    <div class="now-playing-label">Now Playing · Basement</div>
+    <div class="track-title" id="trackTitle">—</div>
+    <div class="track-artist" id="trackArtist">Submit a playlist above to get started</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="controls">
+    <!-- Previous -->
+    <button class="ctrl-btn" onclick="sonosCmd('previous')" title="Previous">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+      </svg>
+    </button>
+
+    <!-- Play / Pause -->
+    <button class="btn-playpause" id="btnPlayPause" onclick="togglePlay()">
+      <svg id="iconPlay" width="30" height="30" viewBox="0 0 24 24" fill="white">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <svg id="iconPause" width="30" height="30" viewBox="0 0 24 24" fill="white" style="display:none">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+    </button>
+
+    <!-- Next -->
+    <button class="ctrl-btn" onclick="sonosCmd('next')" title="Next">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6 18l8.5-6L6 6v12zm2-8.14 5.5 3.89L8 17.14V9.86zM16 6h2v12h-2z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Volume -->
+  <div class="volume-row">
+    <span class="vol-icon">🔈</span>
+    <input type="range" id="volSlider" min="0" max="100" value="30"
+      oninput="setVolume(this.value)" onchange="setVolume(this.value)">
+    <span class="vol-val" id="volVal">30</span>
+    <span class="vol-icon">🔊</span>
+  </div>
+</div>
+
+<div class="footer">KING OF DELANCEY &nbsp;·&nbsp; PASSAIC NJ &nbsp;·&nbsp; GUEST CONTROL</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────
+  const SONOS_IP = "192.168.1.116";   // Connect:Amp Basement
+  const BASE     = `http://${SONOS_IP}:1400`;
+  // ────────────────────────────────────────────────────────
+
+  let isPlaying = false;
+
+  // Low-level Sonos UPnP SOAP call via fetch
+  async function soapCall(service, action, body) {
+    const url  = `${BASE}/MediaRenderer/${service}/Control`;
+    const soap = `<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <s:Body><u:${action} xmlns:u="urn:schemas-upnp-org:service:${service}:1">${body}</u:${action}></s:Body>
+</s:Envelope>`;
+    try {
+      const r = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/xml; charset=utf-8",
+          "SOAPAction": `urn:schemas-upnp-org:service:${service}:1#${action}`
+        },
+        body: soap
+      });
+      return r.ok;
+    } catch(e) {
+      console.warn("Sonos error", e);
+      return false;
+    }
+  }
+
+  async function avTransport(action, body = "") {
+    return soapCall("AVTransport", action, `<InstanceID>0</InstanceID>${body}`);
+  }
+
+  async function renderCtrl(action, body = "") {
+    return soapCall("RenderingControl", action, `<InstanceID>0</InstanceID>${body}`);
+  }
+
+  // Play a Spotify URI via Sonos
+  async function submitPlaylist() {
+    const url = document.getElementById("spotifyUrl").value.trim();
+    const msg  = document.getElementById("statusMsg");
+    msg.className = "status-msg";
+    msg.textContent = "Sending to Sonos…";
+
+    if (!url.includes("spotify")) {
+      msg.className = "status-msg err";
+      msg.textContent = "Please paste a valid Spotify link.";
+      return;
+    }
+
+    // Convert web URL to Spotify URI
+    // e.g. https://open.spotify.com/playlist/37i9dQ... → spotify:playlist:37i9dQ...
+    let spotifyUri = url;
+    const match = url.match(/spotify\.com\/(playlist|album|track)\/([A-Za-z0-9]+)/);
+    if (match) spotifyUri = `spotify:${match[1]}:${match[2]}`;
+
+    const metaData = `<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/">
+      <item id="0" parentID="-1" restricted="true">
+        <upnp:class>object.item.audioItem.musicTrack</upnp:class>
+        <res>${escXml(spotifyUri)}</res>
+      </item>
+    </DIDL-Lite>`;
+
+    const setUriBody = `<CurrentURI>${escXml(spotifyUri)}</CurrentURI><CurrentURIMetaData>${escXml(metaData)}</CurrentURIMetaData>`;
+    const ok = await avTransport("SetAVTransportURI", setUriBody);
+    if (!ok) {
+      msg.className = "status-msg err";
+      msg.textContent = "⚠️ Could not reach Sonos — make sure you're on KOD Wi-Fi.";
+      return;
+    }
+    await avTransport("Play", "<Speed>1</Speed>");
+    isPlaying = true;
+    updatePlayPauseIcon();
+
+    msg.className = "status-msg ok";
+    msg.textContent = "🎵 Playlist sent! Enjoy the music.";
+    pollTrackInfo();
+  }
+
+  function escXml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  async function togglePlay() {
+    if (isPlaying) {
+      await avTransport("Pause");
+      isPlaying = false;
+    } else {
+      await avTransport("Play", "<Speed>1</Speed>");
+      isPlaying = true;
+    }
+    updatePlayPauseIcon();
+  }
+
+  function updatePlayPauseIcon() {
+    document.getElementById("iconPlay").style.display  = isPlaying ? "none" : "block";
+    document.getElementById("iconPause").style.display = isPlaying ? "block" : "none";
+  }
+
+  async function sonosCmd(cmd) {
+    if (cmd === "next")     await avTransport("Next");
+    if (cmd === "previous") await avTransport("Previous");
+  }
+
+  let volDebounce;
+  function setVolume(v) {
+    document.getElementById("volVal").textContent = v;
+    clearTimeout(volDebounce);
+    volDebounce = setTimeout(() => {
+      renderCtrl("SetVolume", `<Channel>Master</Channel><DesiredVolume>${v}</DesiredVolume>`);
+    }, 180);
+  }
+
+  // Poll current track from Sonos
+  async function pollTrackInfo() {
+    try {
+      const soap = `<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <s:Body><u:GetPositionInfo xmlns:u="urn:schemas-upnp-org:service:AVTransport:1"><InstanceID>0</InstanceID></u:GetPositionInfo></s:Body>
+</s:Envelope>`;
+      const r = await fetch(`${BASE}/MediaRenderer/AVTransport/Control`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/xml; charset=utf-8",
+          "SOAPAction": "urn:schemas-upnp-org:service:AVTransport:1#GetPositionInfo"
+        },
+        body: soap
+      });
+      if (r.ok) {
+        const text = await r.text();
+        const title  = extractTag(text, "dc:title") || "—";
+        const artist = extractTag(text, "dc:creator") || "Spotify";
+        document.getElementById("trackTitle").textContent  = title;
+        document.getElementById("trackArtist").textContent = artist;
+      }
+    } catch(e) {}
+    setTimeout(pollTrackInfo, 5000);
+  }
+
+  function extractTag(xml, tag) {
+    const m = xml.match(new RegExp(`<${tag}>([^<]+)<\/${tag}>`));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
+  // Init volume
+  setVolume(30);
+  // Start polling (to show if something's already playing)
+  pollTrackInfo();
+</script>
+</body>
+</html>
