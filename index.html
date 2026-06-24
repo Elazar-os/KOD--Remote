@@ -1,849 +1,610 @@
+
+100%
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>King of Delancey – Guest Remote</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>King of Delancey · Guest Music</title>
+<link rel="icon" type="image/png" href="kod-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --red: #C0272D;
-    --red-dark: #9a1f24;
-    --red-glow: rgba(192, 39, 45, 0.35);
-    --cream: #FAF7F2;
-    --off-white: #F0EBE3;
-    --charcoal: #1A1A1A;
-    --mid: #555;
-    --light: #999;
+    --black:    #0C0C0C;
+    --deep:     #111111;
+    --surface:  #181818;
+    --border:   rgba(255,255,255,0.07);
+    --red:      #C0272D;
+    --red-dim:  rgba(192,39,45,0.15);
+    --gold:     #B8986A;
+    --gold-dim: rgba(184,152,106,0.12);
+    --cream:    #EDE8DF;
+    --muted:    #888;
+    --light:    #BBB;
   }
 
+  html { scroll-behavior: smooth; }
+
   body {
-    background: var(--charcoal);
+    background: var(--black);
     color: var(--cream);
     font-family: 'Inter', sans-serif;
+    font-weight: 300;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 24px 16px 48px;
-  }
-
-  /* ── HEADER ── */
-  .header {
+    justify-content: center;
+    padding: 52px 24px 40px;
+    overflow: hidden;
     text-align: center;
-    margin-bottom: 32px;
   }
 
-  .logo-badge {
-    display: inline-block;
-    position: relative;
-    margin-bottom: 12px;
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 280px;
+    background: radial-gradient(ellipse at top, rgba(192,39,45,0.14) 0%, transparent 70%);
+    pointer-events: none;
   }
 
-  /* SVG badge replicating the KOD shield shape */
-  .badge-svg {
-    width: 200px;
-    filter: drop-shadow(0 4px 20px var(--red-glow));
+  .logo-img {
+    width: 180px;
+    height: auto;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 6px 28px rgba(192,39,45,0.35));
+    animation: fadeDown 0.8s ease both;
   }
 
-  .tagline {
-    font-size: 11px;
-    letter-spacing: 3px;
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .welcome-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    color: var(--light);
-    margin-top: 6px;
+    color: var(--gold);
+    margin-bottom: 14px;
+    animation: fadeUp 0.8s 0.1s ease both;
   }
 
-  /* ── WIFI CARD ── */
-  .wifi-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 16px 24px;
+  .welcome-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(34px, 8vw, 50px);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--cream);
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .welcome-heading em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .welcome-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 14px;
+    line-height: 1.6;
+    max-width: 300px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DIVIDER */
+  .divider {
     width: 100%;
-    max-width: 360px;
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    max-width: 420px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
   }
 
-  .wifi-icon {
-    font-size: 28px;
-    flex-shrink: 0;
+  /* SECTIONS */
+  .section {
+    padding: 34px 24px;
+    max-width: 460px;
+    margin: 0 auto;
   }
 
-  .wifi-info h3 {
-    font-size: 13px;
-    color: var(--light);
+  .section-eyebrow {
+    font-size: 9px;
+    letter-spacing: 3.5px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 2px;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+
+  /* WIFI CARD */
+  .wifi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
 
   .wifi-row {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    margin-top: 3px;
   }
 
-  .wifi-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--cream);
-  }
-
-  .wifi-pass {
-    font-size: 13px;
-    color: var(--light);
-    font-family: monospace;
-  }
-
-  /* ── SPOTIFY SUBMIT ── */
-  .section-label {
-    font-size: 11px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--light);
-    margin-bottom: 10px;
-    text-align: left;
-    width: 100%;
-    max-width: 360px;
-  }
-
-  .spotify-form {
-    width: 100%;
-    max-width: 360px;
-    margin-bottom: 32px;
-  }
-
-  .spotify-input-row {
-    display: flex;
-    gap: 8px;
-  }
-
-  .spotify-input {
-    flex: 1;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px;
-    padding: 12px 14px;
-    color: var(--cream);
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .spotify-input:focus { border-color: var(--red); }
-  .spotify-input::placeholder { color: var(--light); }
-
-  .btn-submit {
-    background: var(--red);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    white-space: nowrap;
-  }
-  .btn-submit:active { transform: scale(0.96); background: var(--red-dark); }
-
-  .status-msg {
-    font-size: 13px;
-    margin-top: 10px;
-    min-height: 18px;
-    text-align: center;
-    color: var(--light);
-    transition: color 0.3s;
-  }
-  .status-msg.ok { color: #4ade80; }
-  .status-msg.err { color: #f87171; }
-
-  /* ── REMOTE ── */
-  .remote {
-    width: 100%;
-    max-width: 360px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-    padding: 28px 24px 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
-  }
-
-  .now-playing {
-    text-align: center;
-    width: 100%;
-  }
-
-  .now-playing-label {
+  .wifi-label {
     font-size: 10px;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--light);
-    margin-bottom: 6px;
+    color: var(--muted);
+    margin-bottom: 3px;
   }
 
-  .track-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 700;
+  .wifi-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
     color: var(--cream);
-    margin-bottom: 2px;
-    min-height: 28px;
   }
 
-  .track-artist {
-    font-size: 13px;
+  .wifi-pass-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
     color: var(--light);
-    min-height: 18px;
-  }
-
-  /* Play/Pause ring button */
-  .controls {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-  }
-
-  .ctrl-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--cream);
-    opacity: 0.6;
-    transition: opacity 0.2s, transform 0.1s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .ctrl-btn:hover { opacity: 1; }
-  .ctrl-btn:active { transform: scale(0.88); }
-
-  .btn-playpause {
-    width: 72px;
-    height: 72px;
-    background: var(--red);
-    border: none;
-    border-radius: 50%;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 28px var(--red-glow);
-    transition: background 0.2s, transform 0.1s;
-    opacity: 1;
-  }
-  .btn-playpause:active { transform: scale(0.92); background: var(--red-dark); }
-
-  /* Volume */
-  .volume-row {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .vol-icon {
-    color: var(--light);
-    flex-shrink: 0;
-    font-size: 18px;
-  }
-
-  input[type=range] {
-    -webkit-appearance: none;
-    flex: 1;
-    height: 4px;
-    border-radius: 2px;
-    background: rgba(255,255,255,0.12);
-    outline: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--red);
-    cursor: pointer;
-    box-shadow: 0 0 8px var(--red-glow);
-  }
-
-  .vol-val {
-    font-size: 13px;
-    color: var(--light);
-    width: 28px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  /* divider */
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: rgba(255,255,255,0.07);
-  }
-
-  .footer {
-    font-size: 11px;
-    color: rgba(255,255,255,0.2);
-    text-align: center;
-    margin-top: 36px;
     letter-spacing: 1px;
   }
+
+  .copy-btn {
+    background: var(--gold-dim);
+    border: 1px solid rgba(184,152,106,0.22);
+    border-radius: 8px;
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
+  }
+  .copy-btn:active { background: rgba(184,152,106,0.28); }
+
+  .wifi-hint {
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    line-height: 1.55;
+  }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; }
+
+  .step {
+    display: flex;
+    gap: 18px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .step-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .step-desc strong { color: var(--light); font-weight: 500; }
+
+  /* SERVICE TABS */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 12px 8px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .tab.active {
+    background: var(--red-dim);
+    border-color: rgba(192,39,45,0.3);
+    color: var(--cream);
+  }
+
+  .tab-icon { font-size: 18px; }
+
+  .steps-panel { display: none; }
+  .steps-panel.active { display: flex; flex-direction: column; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 36px 24px 48px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--cream);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .footer-location {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 11px 20px;
+    font-size: 13px;
+    color: var(--cream);
+    transition: transform 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 100;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ── HEADER ── -->
-<div class="header">
-  <div class="logo-badge">
-    <!-- KOD shield SVG (red/white matching uploaded logo) -->
-    <svg class="badge-svg" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-      <!-- Outer shield body -->
-      <path d="M20,60 Q200,-20 380,60 L380,200 Q200,280 20,200 Z" fill="#C0272D"/>
-      <!-- Inner white rectangle area -->
-      <rect x="36" y="72" width="328" height="116" rx="4" fill="white"/>
-      <!-- Top oval -->
-      <ellipse cx="200" cy="72" rx="72" ry="28" fill="#C0272D"/>
-      <text x="200" y="67" font-family="Georgia,serif" font-size="14" fill="white" text-anchor="middle" font-weight="bold">KING OF</text>
-      <!-- Main text -->
-      <text x="200" y="152" font-family="Georgia,serif" font-size="58" fill="#C0272D" text-anchor="middle" font-weight="900">DELANCEY</text>
-      <!-- Est text -->
-      <text x="200" y="230" font-family="Georgia,serif" font-size="18" fill="#C0272D" text-anchor="middle" font-weight="bold">EST. 2009</text>
-    </svg>
-  </div>
-  <div class="tagline">Guest Music Remote · Passaic, NJ</div>
+<!-- HERO -->
+<div class="hero">
+  <img class="logo-img" src="kod-logo.png" alt="King of Delancey">
+  <div class="welcome-eyebrow">Welcome to the table</div>
+  <div class="welcome-heading">Your music,<br><em>your way.</em></div>
+  <div class="welcome-sub">Play your playlist through our sound system. Follow the steps below to get started.</div>
 </div>
 
-<!-- ── WIFI CARD ── -->
-<div class="wifi-card">
-  <div class="wifi-icon">📶</div>
-  <div class="wifi-info">
-    <h3>Connect to Wi-Fi first</h3>
+<div class="divider"></div>
+
+<!-- WIFI -->
+<div class="section">
+  <div class="section-eyebrow">Step 1 · Connect</div>
+  <div class="wifi-card">
     <div class="wifi-row">
-      <span class="wifi-name">KOD</span>
-      <span class="wifi-pass">Blackroom234!</span>
+      <div>
+        <div class="wifi-label">Network</div>
+        <div class="wifi-value">KOD Guest</div>
+      </div>
+      <button class="copy-btn" onclick="copyText('KOD Guest', this)">Copy</button>
+    </div>
+    <div class="divider" style="margin:0;max-width:none;"></div>
+    <div class="wifi-row">
+      <div>
+        <div class="wifi-label">Password</div>
+        <div class="wifi-pass-value">welcometokod</div>
+      </div>
+      <button class="copy-btn" onclick="copyText('welcometokod', this)">Copy</button>
+    </div>
+    <div class="wifi-hint">
+      Connect to <strong>KOD Guest</strong> before continuing — this is required for your music to reach our speakers.
     </div>
   </div>
 </div>
 
-<!-- ── SPOTIFY SUBMIT ── -->
-<div class="section-label">Share your Spotify playlist</div>
-<div class="spotify-form">
-  <div class="spotify-input-row">
-    <input class="spotify-input" id="spotifyUrl" type="url"
-      placeholder="Paste Spotify playlist link…">
-    <button class="btn-submit" onclick="submitPlaylist()">▶ Play</button>
-  </div>
-  <div class="status-msg" id="statusMsg"></div>
-</div>
+<div class="divider"></div>
 
-<!-- ── REMOTE ── -->
-<div class="remote">
-  <div class="now-playing">
-    <div class="now-playing-label">Now Playing · Basement</div>
-    <div class="track-title" id="trackTitle">—</div>
-    <div class="track-artist" id="trackArtist">Submit a playlist above to get started</div>
-  </div>
+<!-- MUSIC STEPS -->
+<div class="section">
+  <div class="section-eyebrow">Step 2 · Play your music</div>
 
-  <div class="divider"></div>
-
-  <div class="controls">
-    <!-- Previous -->
-    <button class="ctrl-btn" onclick="sonosCmd('previous')" title="Previous">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
-      </svg>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('spotify', this)">
+      <span class="tab-icon">🎧</span> Spotify
     </button>
-
-    <!-- Play / Pause -->
-    <button class="btn-playpause" id="btnPlayPause" onclick="togglePlay()">
-      <svg id="iconPlay" width="30" height="30" viewBox="0 0 24 24" fill="white">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-      <svg id="iconPause" width="30" height="30" viewBox="0 0 24 24" fill="white" style="display:none">
-        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-      </svg>
-    </button>
-
-    <!-- Next -->
-    <button class="ctrl-btn" onclick="sonosCmd('next')" title="Next">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M6 18l8.5-6L6 6v12zm2-8.14 5.5 3.89L8 17.14V9.86zM16 6h2v12h-2z"/>
-      </svg>
+    <button class="tab" onclick="switchTab('apple', this)">
+      <span class="tab-icon">🎵</span> Apple Music
     </button>
   </div>
 
-  <div class="divider"></div>
-
-  <!-- Volume -->
-  <div class="volume-row">
-    <span class="vol-icon">🔈</span>
-    <input type="range" id="volSlider" min="0" max="100" value="30"
-      oninput="setVolume(this.value)" onchange="setVolume(this.value)">
-    <span class="vol-val" id="volVal">30</span>
-    <span class="vol-icon">🔊</span>
-  </div>
-</div>
-
-<div class="footer">KING OF DELANCEY &nbsp;·&nbsp; PASSAIC NJ &nbsp;·&nbsp; GUEST CONTROL</div>
-
-<script>
-  // ── CONFIG ──────────────────────────────────────────────
-  const SONOS_IP = "192.168.1.116";   // Connect:Amp Basement
-  const BASE     = `http://${SONOS_IP}:1400`;
-  // ────────────────────────────────────────────────────────
-
-  let isPlaying = false;
-
-  // Low-level Sonos UPnP SOAP call via fetch
-  async function soapCall(service, action, body) {
-    const url  = `${BASE}/MediaRenderer/${service}/Control`;
-    const soap = `<?xml version="1.0"?>
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
-  <s:Body><u:${action} xmlns:u="urn:schemas-upnp-org:service:${service}:1">${body}</u:${action}></s:Body>
-</s:Envelope>`;
-    try {
-      const r = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/xml; charset=utf-8",
-          "SOAPAction": `urn:schemas-upnp-org:service:${service}:1#${action}`
-        },
-        body: soap
-      });
-      return r.ok;
-    } catch(e) {
-      console.warn("Sonos error", e);
-      return false;
-    }
-  }
-
-  async function avTransport(action, body = "") {
-    return soapCall("AVTransport", action, `<InstanceID>0</InstanceID>${body}`);
-  }
-
-  async function renderCtrl(action, body = "") {
-    return soapCall("RenderingControl", action, `<InstanceID>0</InstanceID>${body}`);
-  }
-
-  // Play a Spotify URI via Sonos
-  async function submitPlaylist() {
-    const url = document.getElementById("spotifyUrl").value.trim();
-    const msg  = document.getElementById("statusMsg");
-    msg.className = "status-msg";
-    msg.textContent = "Sending to Sonos…";
-
-    if (!url.includes("spotify")) {
-      msg.className = "status-msg err";
-      msg.textContent = "Please paste a valid Spotify link.";
-      return;
-    }
-
-    // Convert web URL to Spotify URI
-    // e.g. https://open.spotify.com/playlist/37i9dQ... → spotify:playlist:37i9dQ...
-    let spotifyUri = url;
-    const match = url.match(/spotify\.com\/(playlist|album|track)\/([A-Za-z0-9]+)/);
-    if (match) spotifyUri = `spotify:${match[1]}:${match[2]}`;
-
-    const metaData = `<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/">
-      <item id="0" parentID="-1" restricted="true">
-        <upnp:class>object.item.audioItem.musicTrack</upnp:class>
-        <res>${escXml(spotifyUri)}</res>
-      </item>
-    </DIDL-Lite>`;
-
-    const setUriBody = `<CurrentURI>${escXml(spotifyUri)}</CurrentURI><CurrentURIMetaData>${escXml(metaData)}</CurrentURIMetaData>`;
-    const ok = await avTransport("SetAVTransportURI", setUriBody);
-    if (!ok) {
-      msg.className = "status-msg err";
-      msg.textContent = "⚠️ Could not reach Sonos — make sure you're on KOD Wi-Fi.";
-      return;
-    }
-    await avTransport("Play", "<Speed>1</Speed>");
-    isPlaying = true;
-    updatePlayPauseIcon();
-
-    msg.className = "status-msg ok";
-    msg.textContent = "🎵 Playlist sent! Enjoy the music.";
-    pollTrackInfo();
-  }
-
-  function escXml(s) {
-    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  }
-
-  async function togglePlay() {
-    if (isPlaying) {
-      await avTransport("Pause");
-      isPlaying = false;
-    } else {
-      await avTransport("Play", "<Speed>1</Speed>");
-      isPlaying = true;
-    }
-    updatePlayPauseIcon();
-  }
-
-  function updatePlayPauseIcon() {
-    document.getElementById("iconPlay").style.display  = isPlaying ? "none" : "block";
-    document.getElementById("iconPause").style.display = isPlaying ? "block" : "none";
-  }
-
-  async function sonosCmd(cmd) {
-    if (cmd === "next")     await avTransport("Next");
-    if (cmd === "previous") await avTransport("Previous");
-  }
-
-  let volDebounce;
-  function setVolume(v) {
-    document.getElementById("volVal").textContent = v;
-    clearTimeout(volDebounce);
-    volDebounce = setTimeout(() => {
-      renderCtrl("SetVolume", `<Channel>Master</Channel><DesiredVolume>${v}</DesiredVolume>`);
-    }, 180);
-  }
-
-  // Poll current track from Sonos
-  async function pollTrackInfo() {
-    try {
-      const soap = `<?xml version="1.0"?>
-<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
-  <s:Body><u:GetPositionInfo xmlns:u="urn:schemas-upnp-org:service:AVTransport:1"><InstanceID>0</InstanceID></u:GetPositionInfo></s:Body>
-</s:Envelope>`;
-      const r = await fetch(`${BASE}/MediaRenderer/AVTransport/Control`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/xml; charset=utf-8",
-          "SOAPAction": "urn:schemas-upnp-org:service:AVTransport:1#GetPositionInfo"
-        },
-        body: soap
-      });
-      if (r.ok) {
-        const text = await r.text();
-        const title  = extractTag(text, "dc:title") || "—";
-        const artist = extractTag(text, "dc:creator") || "Spotify";
-        document.getElementById("trackTitle").textContent  = title;
-        document.getElementById("trackArtist").textContent = artist;
-      }
-    } catch(e) {}
-    setTimeout(pollTrackInfo, 5000);
-  }
-
-  function extractTag(xml, tag) {
-    const m = xml.match(new RegExp(`<${tag}>([^<]+)<\/${tag}>`));
-    return m ? decodeURIComponent(m[1]) : null;
-  }
-
-  // Init volume
-  setVolume(30);
-  // Start polling (to show if something's already playing)
-  pollTrackInfo();
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>King of Delancey · Music Access</title>
-<meta name="theme-color" content="#C0272D" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<link rel="manifest" href="manifest.json" />
-<link rel="icon" href="kod-logo.webp" />
-<style>
-:root{
-  --bg:#0C0C0C;
-  --surface:#181818;
-  --border:rgba(255,255,255,.08);
-  --gold:#B8986A;
-  --gold-soft:rgba(184,152,106,.12);
-  --cream:#EDE8DF;
-  --muted:#a8a8a8;
-  --red:#C0272D;
-  --success:#38b46d;
-}
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-html{
-  scroll-behavior:smooth;
-}
-body{
-  background:var(--bg);
-  color:var(--cream);
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  min-height:100vh;
-  -webkit-font-smoothing:antialiased;
-}
-.container{
-  max-width:520px;
-  margin:auto;
-  padding:32px 20px calc(40px + env(safe-area-inset-bottom));
-}
-.logo{
-  width:180px;
-  display:block;
-  margin:0 auto 28px;
-}
-.hero{
-  text-align:center;
-  margin-bottom:40px;
-}
-.eyebrow{
-  color:var(--gold);
-  letter-spacing:4px;
-  text-transform:uppercase;
-  font-size:11px;
-  margin-bottom:12px;
-}
-h1{
-  font-size:clamp(2.4rem,7vw,3.6rem);
-  line-height:1.05;
-  font-weight:700;
-  margin-bottom:14px;
-}
-.subtitle{
-  color:var(--muted);
-  font-size:1rem;
-  line-height:1.6;
-}
-.gold-line{
-  width:80px;
-  height:1px;
-  background:var(--gold);
-  margin:22px auto 0;
-}
-.section{
-  margin-top:24px;
-}
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:22px;
-}
-.card + .card{
-  margin-top:16px;
-}
-.label{
-  color:var(--gold);
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-size:.72rem;
-  margin-bottom:12px;
-}
-.network{
-  font-size:1.4rem;
-  font-weight:700;
-  margin-bottom:4px;
-}
-.password{
-  color:var(--muted);
-  margin-bottom:18px;
-}
-.btn{
-  width:100%;
-  min-height:48px;
-  border:none;
-  border-radius:14px;
-  cursor:pointer;
-  transition:.2s ease;
-  font-size:.95rem;
-  font-weight:600;
-}
-.btn:focus-visible{
-  outline:2px solid var(--gold);
-  outline-offset:2px;
-}
-.btn-primary{
-  background:var(--red);
-  color:white;
-}
-.btn-secondary{
-  background:var(--gold-soft);
-  color:var(--gold);
-  border:1px solid rgba(184,152,106,.25);
-}
-.btn-secondary:hover{
-  background:rgba(184,152,106,.18);
-}
-.actions{
-  display:grid;
-  gap:14px;
-}
-.music-status{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:10px;
-}
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:var(--success);
-}
-.status-title{
-  font-weight:600;
-}
-.status-copy{
-  color:var(--muted);
-  line-height:1.6;
-}
-.access{
-  text-align:center;
-}
-.access p{
-  color:var(--muted);
-  margin-top:10px;
-  line-height:1.6;
-}
-.qr-placeholder{
-  width:160px;
-  height:160px;
-  border-radius:18px;
-  border:1px dashed rgba(255,255,255,.15);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:18px auto;
-  color:var(--muted);
-  font-size:.85rem;
-}
-.footer{
-  text-align:center;
-  margin-top:40px;
-  color:var(--muted);
-  font-size:.85rem;
-}
-.copy-row{
-  display:flex;
-  gap:10px;
-}
-.copy-row .btn{
-  flex:1;
-}
-</style>
-</head>
-<body>
-<div class="container">
-
-<img
-class=“logo”
-src=“kod-logo.webp”
-alt=“King of Delancey Logo”
-loading=“eager”
-
-  <section class="hero">
-<div class="eyebrow">King of Delancey</div>
-<h1>
-  Welcome to<br>
-  King of Delancey
-</h1>
-<p class="subtitle">
-  Take control of the room.
-</p>
-<div class="gold-line"></div>
-  </section>
-  <section class="section">
-<div class="card">
-  <div class="label">WiFi Access</div>
-  <div class="network">KOD Guest</div>
-  <div class="password">Password: welcometokod</div>
-  <div class="copy-row">
-    <button
-      class="btn btn-secondary"
-      aria-label="Copy WiFi network name"
-      onclick="copyText('KOD Guest')">
-      Copy Network
-    </button>
-    <button
-      class="btn btn-secondary"
-      aria-label="Copy WiFi password"
-      onclick="copyText('welcometokod')">
-      Copy Password
-    </button>
-  </div>
-</div>
-  </section>
-  <section class="section">
-<div class="actions">
-  <a href="spotify:" style="text-decoration:none;">
-    <button
-      class="btn btn-primary"
-      aria-label="Open Spotify">
-      Open Spotify
-    </button>
-  </a>
-  <a href="music:" style="text-decoration:none;">
-    <button
-      class="btn btn-secondary"
-      aria-label="Open Apple Music">
-      Open Apple Music
-    </button>
-  </a>
-</div>
-  </section>
-  <section class="section">
-<div class="card">
-  <div class="music-status">
-    <div class="dot"></div>
-    <div class="status-title">
-      Music System Ready
+  <!-- Spotify Steps -->
+  <div class="steps-panel active" id="panel-spotify">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Open Spotify</div>
+          <div class="step-desc">Start playing any song, album, or playlist you'd like to share with the room.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Tap the speaker icon</div>
+          <div class="step-desc">While a track is playing, tap the <strong>speaker / Connect</strong> icon in the bottom left of the player screen.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Select "Basement"</div>
+          <div class="step-desc">You'll see our Sonos speaker listed. Tap <strong>Basement</strong> and your music starts playing instantly.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Control from Spotify</div>
+          <div class="step-desc">Use your Spotify app as normal — play, pause, skip, and adjust volume right from your phone.</div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="status-copy">
-    Connect Spotify or Apple Music and select
-    <strong>Basement</strong> as your playback device.
+
+  <!-- Apple Music Steps -->
+  <div class="steps-panel" id="panel-apple">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Open Apple Music</div>
+          <div class="step-desc">Start playing any song, album, or playlist you'd like to share with the room.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Tap the AirPlay icon</div>
+          <div class="step-desc">While a track is playing, tap the <strong>AirPlay icon</strong> (a triangle with circles) in the player screen.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Select "Basement"</div>
+          <div class="step-desc">Our Sonos speaker will appear in the AirPlay list. Tap <strong>Basement</strong> to connect.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Control from Apple Music</div>
+          <div class="step-desc">Use your Apple Music app as normal — play, pause, skip, and adjust volume right from your phone.</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-  </section>
-  <section class="section">
-<div class="card access">
-  <div class="label">Host Access</div>
-  <div class="qr-placeholder">
-    QR Code Here
-  </div>
-  <p>
-    The event host may access this page using the
-    provided QR code or NFC tag.
-  </p>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-name">King of Delancey</div>
+  <div class="footer-location">Passaic · New Jersey</div>
 </div>
-  </section>
-  <div class="footer">
-    King of Delancey · Passaic, New Jersey
-  </div>
-</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-function copyText(text){
-  navigator.clipboard.writeText(text)
-    .then(() => {
-      alert("Copied: " + text);
-    })
-    .catch(() => {
-      alert("Unable to copy. Please copy manually.");
+  function switchTab(service, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.steps-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + service).classList.add('active');
+  }
+
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(() => btn.textContent = orig, 2000);
+      showToast('"' + text + '" copied');
+    }).catch(() => {
+      showToast('Long-press to copy: ' + text);
     });
-}
-if("serviceWorker" in navigator){
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js")
-      .catch(() => {});
-  });
-}
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
 </script>
 </body>
 </html>
+
+<!--
+═══════════════════════════════════════════════════════
+  HOW THIS WORKS
+═══════════════════════════════════════════════════════
+
+1. WHAT IT DOES
+   A branded welcome page that shows restaurant guests
+   how to connect to the WiFi and play their own music
+   through the restaurant's Sonos speakers.
+
+2. HOW THE DATA FLOWS
+   Step 1 → Guest opens the link on their phone
+   Step 2 → The page loads from GitHub Pages (or wherever
+             it's hosted) — no server needed, it's just
+             a file sitting on the internet
+   Step 3 → Guest reads the WiFi credentials and connects
+             their phone to "KOD Guest"
+   Step 4 → Guest taps "Spotify" or "Apple Music" tab —
+             JavaScript swaps which set of instructions
+             is visible (nothing goes to a server, it all
+             happens inside the browser instantly)
+   Step 5 → Guest follows the steps, opens their music
+             app, taps the speaker/AirPlay icon
+   Step 6 → Their phone and the Sonos speaker find each
+             other automatically because they're on the
+             same WiFi network — like two people in the
+             same room being able to talk to each other
+   Step 7 → Music plays. Guest controls everything from
+             their own app.
+
+3. THE KEY MOVING PARTS
+
+   <img src="kod-logo.png">
+     → Loads the actual KOD logo image. The browser fetches
+       this file from the same folder as index.html.
+       Think of it like a photo in the same envelope as a letter.
+
+   <link rel="icon" href="kod-logo.png">
+     → This is the "favicon" — the tiny logo that appears
+       in the browser tab. Same image, different use.
+
+   .tab / .tab.active (CSS classes)
+     → These are style rules. "Active" means highlighted/selected.
+       Like a light switch — the tab is either ON (active)
+       or OFF (not active).
+
+   switchTab() function (JavaScript)
+     → The function that runs when you tap Spotify or Apple Music.
+       It turns OFF all tabs, then turns ON only the one you tapped.
+       It also hides all instruction panels and shows only the
+       matching one. JavaScript is the "brain" that reacts to clicks.
+
+   copyText() function (JavaScript)
+     → When you tap "Copy" next to the WiFi name or password,
+       this tells the browser to put that text on the clipboard —
+       same as highlighting text and pressing Ctrl+C.
+
+   navigator.clipboard (browser built-in)
+     → The browser's built-in clipboard tool. The page asks the
+       browser to copy text; the browser does the actual copying.
+       The page can't copy directly — it has to ask the browser,
+       like asking a store clerk to gift-wrap something for you.
+
+   showToast() function (JavaScript)
+     → Shows the little notification message that slides up
+       from the bottom ("Copied!"). It adds a CSS class called
+       "show" which moves it into view, then removes it after
+       2.5 seconds so it slides back down.
+
+4. WHY IT WAS BUILT THIS WAY
+
+   DECISION: Pure HTML file, no database, no server
+   WHY: The page doesn't need to store anything or talk to
+        a backend. It's purely instructions. This means:
+        - Free to host (GitHub Pages)
+        - Nothing can break on the server side
+        - Loads instantly on any phone
+   ALTERNATIVE: A full web app with a login, database, and
+        server (like what DoorDash uses). That would cost
+        money monthly, require maintenance, and be massive
+        overkill for a "here's the WiFi password" page.
+
+   DECISION: Spotify Connect / AirPlay instead of custom controls
+   WHY: Both Spotify and AirPlay are built to discover speakers
+        on the same WiFi network automatically. We're using
+        a feature that already exists and works perfectly.
+   ALTERNATIVE: A custom remote control (like what we built
+        in v1) that talks directly to the Sonos speaker.
+        That requires a local server (like a Raspberry Pi)
+        to solve the CORS problem (browsers blocking web
+        pages from talking to local devices directly).
+
+5. WHAT WOULD BREAK AND WHY
+
+   If you removed kod-logo.png from the same folder:
+   → The logo and favicon would show a broken image icon.
+     The rest of the page still works — HTML is forgiving
+     about missing images.
+
+   If you changed "KOD Guest" WiFi to a different name:
+   → The page would still say "KOD Guest" because it's
+     hardcoded (written directly into the HTML, not pulled
+     from anywhere). You'd need to manually update the text.
+
+   If the guest is NOT on KOD Guest WiFi:
+   → Spotify Connect and AirPlay won't find the Sonos speaker.
+     The speaker is also on KOD Guest — they have to be on
+     the same network to "see" each other. It's like trying
+     to call someone in the same building but you're dialing
+     from outside the building.
+
+   If you removed the JavaScript (switchTab / copyText):
+   → Both tabs would show at once (or neither would show).
+     The Copy buttons would do nothing. The page would still
+     display the WiFi info — it just wouldn't be interactive.
+
+6. ONE THING TO REMEMBER
+
+   WiFi is the backbone of everything here.
+
+   Spotify Connect, AirPlay, and Sonos all work by finding
+   each other on the local network — like instruments in a
+   band all hearing each other because they're in the same room.
+   The moment a guest leaves that WiFi network, the magic stops.
+   That's not a bug — it's how local network discovery works,
+   and it's also your security feature: random people on the
+   street can't hijack your speakers because they're not on
+   your network.
+-->
